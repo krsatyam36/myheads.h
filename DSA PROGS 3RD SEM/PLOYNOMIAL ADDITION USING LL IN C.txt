@@ -1,0 +1,146 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct node
+{
+	int coeff;
+	int power;
+	struct node *next;
+}node;
+node *insert();
+node *res_add();
+void display();
+int main()
+{
+	int coeff,power,num;
+	node *start=NULL,*start2=NULL;
+	node *poly_add=NULL;
+	printf("\nEnter the total numbers of terms of the polynomial 1:\n");
+	scanf("%d",&num);
+	for(int i=0;i<num;i++)
+	{	
+		printf("\nEnter the coefficient and power for term %d: \n",i+1);
+		printf("\nCOEFFICIENT :\t");
+		scanf("%d",&coeff);
+		printf("\nPOWER :\t");
+		scanf("%d",&power);  
+		start=insert(start,coeff,power);
+	}
+	printf("\nEnter the total numbers of terms of the polynomial 2:\n");
+	scanf("%d",&num);
+	for(int i=0;i<num;i++)
+	{	
+		printf("\nEnter the coefficient and power for term %d: \n",i+1);
+		printf("\nCOEFFICIENT :\t");
+		scanf("%d",&coeff);
+		printf("\nPOWER :\t");
+		scanf("%d",&power);  
+		start2=insert(start2,coeff,power);
+	}
+	display(start);
+	display(start2);
+	printf("\n\n");
+	poly_add=res_add(start,start2);
+	printf("\nThe resultant Polynomial is: \n");
+	display(poly_add);
+	printf("\n\n");
+	return 0;
+}
+node *insert(node *head,int coeff,int power)
+{
+	node *ptr,*temp;
+	ptr=(node *)malloc(sizeof(node));
+	ptr->coeff=coeff;
+	ptr->power=power;
+	ptr->next=NULL;
+	if(head==NULL ||  head->power < power)
+	{
+		ptr->next=head;
+		head=ptr;
+		return head;
+	}
+	else
+	{
+		temp=head;
+		while(temp->next!=NULL &&  temp->next->power > power)
+		{
+			temp=temp->next; // jumping until finding a smaller pow ahead, much like insertion sort --> looking for right place to sit in//
+		}
+		ptr->next=temp->next;
+		temp->next=ptr;
+		return head;
+	}
+}
+node *res_add(node *head1,node *head2)
+{
+	node *ptr1=head1,*ptr2=head2,*head3=NULL;
+	if(ptr1==NULL || ptr2==NULL)
+	{
+		if(ptr1==NULL && ptr2==NULL)
+		{
+			printf("\nThe Polynomials are empty\n");
+			exit(0);
+		}
+		else if(ptr1==NULL && ptr2!=NULL)
+		{	
+			return ptr2;
+		}
+		else(ptr1!=NULL && ptr2==NULL);
+			return ptr1;
+	}
+	else
+	{
+		while(ptr1!=NULL && ptr2!=NULL)
+		{
+			if(ptr1->power == ptr2->power)
+			{
+				head3=insert(head3,ptr1->coeff+ptr2->coeff,ptr1->power);
+				ptr1=ptr1->next;
+				ptr2=ptr2->next;
+			}
+			else if(ptr1->power > ptr2->power)
+			{
+				head3=insert(head3,ptr1->coeff,ptr1->power);
+				ptr1=ptr1->next;
+			}
+			else if(ptr1->power < ptr2->power)
+			{
+				head3=insert(head3,ptr2->coeff,ptr2->power);
+				ptr2=ptr2->next;
+			}
+		}
+		while(ptr1!=NULL)
+		{
+			head3=insert(head3,ptr1->coeff,ptr1->power);
+		}
+		while(ptr2!=NULL)
+		{	
+			head3=insert(head3,ptr2->coeff,ptr2->power);
+		}
+		return head3;
+	}
+	
+
+}
+void display(node *head)
+{	
+	if(head==NULL)
+	{	
+		printf("\nThe list is empty\n");
+		exit(0);
+	}
+	else
+	{
+		node *temp;
+		temp=head;
+		printf("\nThe Polynomial Is:\n");
+		while(temp!=NULL)
+		{
+			printf("(%dx^%d)",temp->coeff,temp->power);
+			temp=temp->next;
+			if (temp!= NULL)
+        			{
+          		 		printf("+");
+        			}
+		}
+	}
+}	

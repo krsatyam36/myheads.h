@@ -1,0 +1,183 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<ctype.h>
+#include<unistd.h>
+#include<time.h>
+struct node
+{
+	int data;
+	struct node *next; 
+};
+struct node *head=NULL;
+void push();
+void pop();
+void display();
+void linear_search();
+int main()
+{
+	int ch;
+	time_t now=time(NULL);
+	char *str=ctime(&now);
+	printf("\nGMT +5.30hrs\n");
+	printf("%s\n",str);
+	while(1)
+	{
+		printf("\n1.Push new element in stack\n");
+		printf("\n2.Display\n");
+		printf("\n3.Pop an element\n");
+		printf("\n4.Linear search\n");
+		printf("\n5.Exit the code\n");
+		sleep(1);
+		printf("\nEnter your choice:\n");
+		scanf("%d",&ch);
+		switch(ch)
+		{
+			case 1:
+				push();
+				break;
+			case 2:
+				display();
+				break;
+			case 3:
+				pop();
+				break;
+			case 4:
+				linear_search();
+				break;
+			case 5:
+				printf("\nExiting the code\n");
+				exit(0);
+			default:
+				printf("Wrong option chosen\n");
+				break;	
+		}
+	}
+	return 0;
+}
+void push()
+{
+	struct node *ptr=(struct node *)malloc(sizeof(struct node));;
+	int data;
+	if(ptr==NULL)
+	{
+		printf("\nMemory allocation failure\n");
+	}
+	else
+	{
+		printf("\nEnter the data you want to push in the stack:\n");
+	    scanf("%d",&data);
+		if(head==NULL)
+		{
+			ptr->data=data;
+			ptr->next=NULL;
+			head=ptr;
+		}
+		else
+		{
+			//INSERT BEGIN OF LINKED LIST IS HAPPENING HERE//
+			ptr->data=data;
+			ptr->next=head;
+			head=ptr;
+			//HEAD,TEMP -> TEMP, NULL = TEMP,HEAD -> HEAD, NULL//
+			//FOLLOWS FIRST IN LAST OUT ORDER//
+			//1ST BOX WILL BE DELETED IN THE LAST, DELETION FROM BEGGINNING//
+		}
+		printf("\nItem pushed in the stack\n");
+	}
+}
+void display()
+{
+	struct node *ptr;
+	ptr=(struct node *)malloc(sizeof(struct node));
+	if(head==NULL)
+	{   
+	    char x;
+		printf("\nStack is empty\n");
+		printf("nDo you want to push new elemnts?\n");
+		printf("\nY or N\n");
+		scanf("%c",&x);
+		if(x=='Y'||x=='y')
+		{
+		    push();
+		}
+		else
+		{
+		    exit(0);
+		}
+	}
+	ptr=head;
+	printf("\nElements in the stack are:\n");
+	while(ptr!=NULL) // traversing in resverse so ptr!-null condititon//
+	{
+		printf("%d\n",ptr->data);
+		ptr=ptr->next;
+	}
+}
+void pop()
+{
+	struct node *ptr;
+	int data;
+	ptr=(struct node *)malloc(sizeof(struct node));
+	if(head==NULL)
+	{   
+	    char x;
+		printf("\nStack is empty\n");
+		printf("nDo you want to push new elemnts?\n");
+		printf("\nY or N\n");
+		scanf("%c",&x);
+		if(x=='y'||x=='Y')
+		{
+		    push();
+		}
+		else
+		{
+		    exit(0);
+		}
+	}
+	ptr=head;
+	data=head->data;
+	head=head->next;
+	free(ptr);
+	printf("\nItem deleted is %d\n",data);	
+}
+void linear_search()
+{
+	struct node *ptr=(struct node *)malloc(sizeof(struct node));
+	if(head==NULL)
+	{   
+	    char x;
+		printf("\nStack is empty\n");
+		printf("nDo you want to push new elemnts?\n");
+		printf("\nY or N\n");
+		scanf("%c",&x);
+		if(x=='Y'||x=='y')
+		{
+		    push();
+		}
+		else
+		{
+		    exit(0);
+		}
+	}
+	ptr=head;
+	int data,flag=0;
+	printf("Enter the data you want to search:\n");
+	scanf("%d",&data);
+	while(ptr!=NULL)
+	{
+		if(ptr->data==data)
+		{
+		    flag++;
+		}
+		ptr=ptr->next;
+	}
+	if(flag!=0)
+	{
+	    printf("\n %d is in the stack \n",data);
+	}
+	else
+	{
+	    printf("\n %d is not in the stack \n",data);
+	}
+}

@@ -1,0 +1,653 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+int num_of_elements=0;
+int num=0;
+struct node
+{
+	int data_part;						 
+	struct node *next; 
+};
+struct node *start=NULL;
+void insert()
+{
+	struct node *ptr,*temp;
+	int data;
+	temp=(struct node *)malloc(sizeof(struct node));
+	if(temp==NULL)
+	{
+		printf("\nMemory allocation failure\n");
+		return;
+	}
+	printf("\nEnter the data you want to insert:\n");
+	scanf("%d",&data);
+	temp->data_part=data;
+	temp->next=NULL;
+	if(start==NULL)
+	{
+		start=temp;  // 1st box done//
+	}
+	else
+	{
+		ptr=start;
+		while(ptr->next!=NULL)
+		{
+			ptr=ptr->next;  [] [] [ptr] [next]--------->[ptr,next]        next=[temp2,null]
+		}
+		ptr->next=temp;
+	}
+}
+void display()
+{
+	struct node *ptr;
+	ptr=start;
+	if(start==NULL)
+	{
+		printf("\nMemory not allocated for the task\n");
+		return ;	
+	}	
+	printf("\nList of elements in the list are\n");
+	while(ptr!=NULL)
+	{
+		printf("%d\n",ptr->data_part);
+		num_of_elements++;
+		ptr=ptr->next;
+	}
+	printf("\nTotal number of elemnents in the list is %d\n",num_of_elements);
+	num_of_elements=0;
+}
+void insert_end()
+{
+	struct node *ptr,*temp;
+	int data;
+	temp=(struct node *)malloc(sizeof(struct node));
+	if(temp==NULL)
+	{
+		printf("\nMemory allocation failure\n");
+		return;
+	}
+	printf("\nEnter the data you want to insert:\n");
+	scanf("%d",&data);
+	temp->data_part=data;
+	temp->next=NULL;
+	if(start==NULL)
+	{
+		start=temp;
+	}
+	else
+	{
+		ptr=start;
+		while(ptr->next!=NULL)
+		{
+			ptr=ptr->next;
+		}
+		ptr->next=temp;
+	}
+}
+void insert_begin()
+{
+	struct node *temp;
+	int data;
+	temp=(struct node*)malloc(sizeof(struct node));
+	printf("\nEnter the data you want to insert in the front:\n");
+	scanf("%d",&data);
+	temp->data_part=data;
+	temp->next=NULL;
+	if(start==NULL)
+	{
+		start=temp;
+	}
+	temp->next=start;
+	start=temp;
+}
+void insert_pos()
+{
+	struct node *temp,*ptr;
+	int data,pos=0,elements=1,i;
+	temp=(struct node*)malloc(sizeof(struct node));
+	printf("\nEnter the position you want to insert data in:\n");
+	scanf("%d",&pos);
+	printf("\nEnter the data to be inserted\n");
+	scanf("%d",&data);
+	temp->data_part=data;
+	temp->next=NULL;
+	if(pos==1||pos==0)
+	{
+		if(start==NULL)
+		{
+			start=temp;
+			printf("\nData instered in the first location as the list was empty.\n");
+		}
+		else
+		{
+			temp->next=start;
+			start=temp;
+		}
+	}
+    else
+    {
+	    //inserting at the given position
+	    struct node *temp2 = start;
+	    
+	    //traversing 
+	    for(int i=0; i<pos-2; i++){
+	        temp2=temp2->next;
+	    }
+	    
+	    //updating the link
+	    temp->next=temp2->next;
+	    temp2->next=temp;
+	}
+	/*struct node *temp2;
+	temp2=start;
+	//inserting at given point//
+	for(i=0;i<pos-2;i++)
+	{
+		temp2=temp2->next;
+	}
+	//updating the links//
+	temp->next=temp2->next;
+	temp2->next=temp;
+	/*ptr=start;
+	while(ptr->next!=NULL)
+	{
+		elements++;
+		ptr=ptr->next;
+	}
+	printf("\nTotal number of elements in the list are:\n",elements);
+	ptr=start;
+	if(pos==elements)
+	{
+		while(ptr->next!=NULL)
+		{
+			ptr=ptr->next;
+		}
+		ptr->next=temp;
+	}
+	for(i=1;i<pos;i++)
+	{
+		ptr=ptr->next;
+	}
+	temp->next=ptr;
+	ptr=ptr->next;*/
+}
+void delete_end()
+{
+	int ch;
+	struct node *ptr,*temp;
+	char choice[50];
+	if(start==NULL)
+	{
+		printf("No elements in the list\n");
+		printf("\nNo elements in the list\n");
+		if(start==NULL)
+		{
+			printf("\nList is empty\n");
+			printf("\nDo you want to create a new node ?\n");
+			printf("\nType YES or NO\n");
+			scanf("%s",&choice);
+			if(choice=="YES")
+			{
+				printf("\n1.Create a new node\n");
+				printf("\n2.Exit the code\n");
+				printf("\nEnter your choice:\n");
+				scanf("%d",&ch);
+				switch(ch)
+				{
+					case 1:
+						insert();
+						break;
+					case 2:
+							printf("\nExiting the code\n");
+						exit(0);
+					default:
+						printf("\nWrong option taken.\n");
+						break;
+				}
+			}
+			else
+			{
+				printf("Exiting the code:\n");
+				exit(0);
+			}
+		}	
+	}
+	else if(start->next==NULL)
+	{
+		ptr=start;
+		start=NULL;
+		printf("Data deleted is %d\n",ptr->data_part);
+		free(ptr);
+		goto option;
+	}
+	ptr=start;
+	while(ptr->next!=NULL)
+	{
+		temp=ptr;
+		ptr=ptr->next;
+	}
+	temp->next=NULL;
+	printf("The deleted element is %d\n",ptr->data_part);
+	free(ptr);
+	option:
+		if(start==NULL)
+		{
+			printf("\nAll elements have been deleted.\n");
+			printf("\n1.Create a new node\n");
+			printf("\n2.Exit the code\n");
+			printf("\nEnter your choice:\n");
+			scanf("%d",&ch);
+			switch(ch)
+			{
+				case 1:
+					insert();
+					break;
+				case 2:
+					printf("\nExiting the code\n");
+					exit(0);
+				default:
+					printf("\nWrong option taken.\n");
+					break;
+			}
+    	}
+}
+void delete_front()
+{
+	struct node *ptr;
+	int ch;
+	char choice[50];
+	if(start==NULL)
+	{
+		printf("\nList is empty\n");
+		printf("\nDo you want to create a new node ?\n");
+		printf("\nType Y or N\n");
+		scanf("%s",&choice);
+		if(choice=="Y")
+		{
+			printf("\n1.Create a new node\n");
+			printf("\n2.Exit the code\n");
+			printf("\nEnter your choice:\n");
+			scanf("%d",&ch);
+			switch(ch)
+			{
+				case 1:
+					insert();
+					break;
+				case 2:
+					printf("\nExiting the code\n");
+					exit(0);
+				default:
+					printf("\nWrong option taken.\n");
+					break;
+				}
+			}
+	}
+	else
+	{
+		ptr=start;
+		start=start->next;
+		printf("\nElement deleted is %d\n",ptr->data_part);
+		free(ptr);
+		if(start==NULL)
+		{
+			printf("\nAll elements have been deleted.\n");
+			printf("\n1.Create a new node\n");
+			printf("\n2.Exit the code\n");
+			printf("\nEnter your choice:\n");
+			scanf("%d",&ch);
+			switch(ch)
+			{
+				case 1:
+					insert();
+					break;
+				case 2:
+					printf("\nExiting the code\n");
+					exit(0);
+				default:
+					printf("\nWrong option taken.\n");
+					break;
+			}
+		}
+	}
+}
+void delete_pos()
+{
+	struct node *ptr,*temp,*temp2;
+	int ch,pos;
+	char choice[50];
+	if(start==NULL)
+	{
+		printf("\nList is empty\n");
+		printf("\nDo you want to create a new node ?\n");
+		printf("\nType YES or NO\n");
+		scanf("%s",&choice);
+		if(choice=="YES")
+		{
+			printf("\n1.Create a new node\n");
+			printf("\n2.Exit the code\n");
+			printf("\nEnter your choice:\n");
+			scanf("%d",&ch);
+			switch(ch)
+			{
+				case 1:
+					insert();
+					break;
+				case 2:
+						printf("\nExiting the code\n");
+					exit(0);
+				default:
+					printf("\nWrong option taken.\n");
+					break;
+			}
+		}
+		else
+		{
+			printf("Exiting the code:\n");
+			exit(0);
+		}
+	}
+	printf("\nEnter the postion you want to delete:\n");
+	scanf("%d",&pos);
+	if(pos==1||pos==0)
+	{
+		temp=start;
+		start=start->next;
+		printf("\nDeleted data is %d\n",temp->data_part);
+		free(temp);
+	}
+	else
+	{
+		temp=start;
+		for(int i=0;i<pos-1;i++)
+		{
+			temp=temp->next;
+		}
+		temp2=temp->next;
+		temp->next=temp->next->next;
+		printf("\nElement deleted is %d\n",temp2->data_part);
+		temp->next=NULL;
+		free(temp2);
+	}	
+	printf("\nUpdated list is:\n");
+	display();
+}
+void swap(struct node *a, struct node *b)
+{
+	int temp;
+	temp=a->data_part;
+	a->data_part=b->data_part;
+	b->data_part=temp;
+}
+void bubblesort_ascending()
+{
+	char choice[50];
+	struct node *ptr1;
+	struct node *ptr2=NULL;
+	int swapped, i,ch;
+	if(start==NULL)
+	{
+		printf("\nList is empty\n");
+		printf("\nDo you want to create a new node ?\n");
+		printf("\nType YES or NO\n");
+		scanf("%s",&choice);
+		if(choice=="YES")
+		{
+			printf("\n1.Create a new node\n");
+			printf("\n2.Exit the code\n");
+			printf("\nEnter your choice:\n");
+			scanf("%d",&ch);
+			switch(ch)
+			{
+				case 1:
+					insert();
+					break;
+				case 2:
+						printf("\nExiting the code\n");
+					exit(0);
+				default:
+					printf("\nWrong option taken.\n");
+					break;
+			}
+		}
+	}
+	do
+	{
+		swapped=0;
+		ptr1=start;
+		while(ptr1->next!=ptr2)
+		{
+			if(ptr1->data_part>ptr1->next->data_part)
+			{
+				swap(ptr1,ptr1->next);
+				swapped=1;
+			}
+			ptr1=ptr1->next;
+		}
+		ptr2=ptr1;
+	}while(swapped);
+	/*ptr=start;
+	temp1=(struct node *)malloc(sizeof(struct node));
+	while(ptr!=NULL)
+	{
+		ptr=ptr->next;
+		num++;
+	}
+	temp=start;
+	temp2=start->next;
+	int x;
+	printf("\nTotal number of elements in the list are %d\n",num);
+	for(int i=1;i<=num;i++)
+	{
+		if(temp->data_part>temp->next->data_part)
+		{
+			x=temp->next->data_part;
+			temp->next->data_part=temp->data_part;
+			temp->data_part=x;
+			temp=temp->next;
+		}
+	}
+	temp1=start;
+	for(int i=0;i<=num;i++)
+	{
+		temp2=temp1->next;
+		for(int j=0;j<=num;j++)
+		{
+			if(temp1->data_part>temp2->data_part)
+			{
+				k=temp1->data_part;
+				temp1->data_part=temp2->data_part;
+				temp2->data_part=k;	
+			}
+		}
+	}*/
+	printf("\nUpdated linked list is.\n");
+	display();
+}
+void bubblesort_descending()
+{
+	/*int k;
+	struct node *ptr,*temp1,*temp2;
+	ptr=start;
+	//temp1=(struct node *)malloc(sizeof(struct node));
+	while(ptr!=NULL)
+	{
+		ptr=ptr->next;
+		num++;
+	}
+	for(int i=0;i<=num-2;i++)
+	{
+		temp1=start;
+		temp2=temp1->next;
+		for(int j=0;j<=i;j++)
+		{
+			if(temp1->data_part<temp2->data_part)
+			{
+				k=temp1->data_part;
+				temp1->data_part=temp2->data_part;
+				temp2->data_part=k;	
+			}
+		}
+	}*/
+	char choice[50];
+	struct node *ptr1;
+	struct node *ptr2=NULL;
+	int swapped, i,ch;
+	if(start==NULL)
+	{
+		printf("\nList is empty\n");
+		printf("\nDo you want to create a new node ?\n");
+		printf("\nType YES or NO\n");
+		scanf("%s",&choice);
+		if(choice=="YES")
+		{
+			printf("\n1.Create a new node\n");
+			printf("\n2.Exit the code\n");
+			printf("\nEnter your choice:\n");
+			scanf("%d",&ch);
+			switch(ch)
+			{
+				case 1:
+					insert();
+					break;
+				case 2:
+						printf("\nExiting the code\n");
+					exit(0);
+				default:
+					printf("\nWrong option taken.\n");
+					break;
+			}
+		}
+	}
+	do
+	{
+		swapped=0;
+		ptr1=start;
+		while(ptr1->next!=ptr2)
+		{
+			if(ptr1->data_part<ptr1->next->data_part)
+			{
+				swap(ptr1,ptr1->next);
+				swapped=1;
+			}
+			ptr1=ptr1->next;
+		}
+		ptr2=ptr1;
+	}while(swapped);
+	printf("\nUpdated linked list is.\n");
+	display();
+}
+void linear_search()
+{
+	struct node *ptr;
+	int num_to_search,index=0,ch;
+	char choice[50];
+	if(start==NULL)
+	{
+		printf("\nList is empty\n");
+		printf("\nDo you want to create a new node ?\n");
+		printf("\nType YES or NO\n");
+		scanf("%s",&choice);
+		if(choice=="YES")
+		{
+			printf("\n1.Create a new node\n");
+			printf("\n2.Exit the code\n");
+			printf("\nEnter your choice:\n");
+			scanf("%d",&ch);
+			switch(ch)
+			{
+				case 1:
+					insert();
+					break;
+				case 2:
+						printf("\nExiting the code\n");
+					exit(0);
+				default:
+					printf("\nWrong option taken.\n");
+					break;
+			}	
+		}
+	}
+	else
+	{
+		ptr=start;
+		printf("\nEnter the number you want to search for in the list:\n");
+		scanf("%d",&num_to_search);
+		while(ptr!=NULL)
+		{
+			index++;
+			if(ptr->data_part==num_to_search)
+			{
+				printf("\nData value %d is found in node number : %d\n",ptr->data_part,index);
+			}
+			ptr=ptr->next;
+		}
+	}
+}
+int main()
+{
+	while(1)
+	{
+		int ch;
+		printf("\n1.Insert\n");
+		printf("\n2.Display\n");
+		printf("\n3.Insert_End\n");
+		printf("\n4.Insert_Begin\n");
+		printf("\n5.Insert_Pos\n");
+		printf("\n6.Delete_End\n");
+		printf("\n7.Delete_Front\n");
+		printf("\n8.Delete_Pos\n");
+		printf("\n9.Bubble sorting the list ascending order:\n");
+		printf("\n10.Bubble sorting the list descending order:\n");
+		printf("\n11.Linear Search\n");
+		printf("\n12.Exit\n");
+		printf("\nEnter the option:\n");
+		scanf("%d",&ch);
+		switch(ch)
+		{
+			case 1:
+				insert();
+				break;
+			case 2:
+				display();
+				break;
+			case 3:
+				insert_end();
+				break;
+			case 4:
+				insert_begin();
+				break;
+			case 5:
+				insert_pos();
+				break;
+			case 6:
+				delete_end();
+				break;
+			case 7:
+				delete_front();
+				break;
+			case 8:
+				delete_pos();
+				break;
+			case 9:
+				printf("\nBubble sorting the list ascending order:\n");
+				bubblesort_ascending();
+				break;
+			case 10:
+				printf("\nBubble sorting the list descending order:\n");
+				bubblesort_descending();
+				break;
+			case 11:
+				printf("\nLinear Search\n");
+				linear_search();
+				break;
+			case 12:
+				printf("\nExiting the code\n");
+				exit(0);
+				break;
+			default:
+				printf("\nWrong option taken\n");
+				break;
+		}
+    }
+    return 0;
+}

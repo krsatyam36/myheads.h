@@ -1,0 +1,215 @@
+/*STACKS USING ARRAY WITH BUBLE SORT AND LINEAR SEARCH.*/
+
+
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#define MAX 50
+int top=-1,top2=-1,index=-1,top3=-1,element,stack[MAX],array[MAX],array2[MAX];//top2 and top3 is for sorting//
+void insert();
+void delet();
+void display();
+void linear_search();
+void bubblesort_ascending();
+void bubblesort_descending();
+int main()
+{
+	int ch;
+	while(1)
+	{
+		printf("\n1.Insert in Stack\n");
+		printf("\n2.Display\n");
+		printf("\n3.Delete from the stack\n");
+		printf("\n4.Bubble sort in ascending order\n");
+		printf("\n5.Bubble sort in descending order\n");
+		printf("\n6.Linear Search\n");
+		printf("\n7.Exit the code\n");
+		printf("\nEnter your choice:\n");
+		scanf("%d",&ch);
+		switch(ch)
+		{
+			case 1:
+				insert();
+				break;
+			case 2:
+				display();
+				break;
+			case 3:
+				delet();
+				break;
+			case 4:
+				bubblesort_ascending();
+				break;
+			case 5:
+				bubblesort_descending();
+				break;
+			case 6:
+				linear_search();
+				break;
+			case 7:
+				printf("\nExiting the code:\n");
+				exit(0);
+			default:
+				printf("\nWrong option taken, returning\n");
+				break;
+		}
+	}
+}
+void insert()
+{
+	int data;
+	if(top==MAX-1)
+	{
+		printf("\nThe stack is full, cannot enter any more data\n");
+		return;
+	}
+	top++;
+	index++; //array with index has been made for sorting purpose//
+	printf("\nEnter the data you want to insert in the stack:\n");
+	scanf("%d",&data);
+	stack[top]=data;
+	array[index]=data;//array[index]//
+	array2[index]=data;
+	printf("\nThe value of top and index is %d and %d\n",top,index);
+}
+void display()
+{
+	int i;
+	char ch;
+	if(top==-1)
+	{
+		printf("\nStack is empty\n");
+		printf("Do you want to create a new stack?\n");
+		printf("\nY or N\n");
+		scanf("%s",&ch);
+		if(ch=='Y')
+		{
+			insert();
+		}
+		else
+		{
+			exit(0);
+		}
+	}
+	printf("\nElements in the stack are:\n");
+	for(i=top;i>=0;i--)
+	{
+		printf("%d\n",stack[i]);
+	}
+}
+void delet()
+{
+	char ch;
+	if(top==-1)
+	{
+		printf("\nStack is empty\n");
+		printf("Do you want to create a new stack?\n");
+		printf("\nY or N\n");
+		scanf("%s",&ch);
+		if(ch=='Y')
+		{
+			insert();
+		}
+		else
+		{
+			exit(0);
+		}
+	}
+	int data;
+	data=stack[top--];
+	printf("\nDeleted element is %d\n",data);	
+	printf("\nUpdated stack is:\n");
+	display();
+}
+void linear_search()
+{
+	char ch;
+	if(top==-1)
+	{
+		printf("\nStack is empty\n");
+		printf("Do you want to create a new stack?\n");
+		printf("\nY or N\n");
+		scanf("%s",&ch);
+		if(ch=='Y')
+		{
+			insert();
+		}
+		else
+		{
+			exit(0);
+		}
+	}
+	int data,flag=0;
+	printf("\nEnter the data you are looking for:\n");
+	scanf("%d",&data);
+	for(int i=0;i<=top;i++)
+	{
+		if(stack[i]==data)
+		{
+			flag++;
+		}
+	}
+	if(flag==1)
+	{
+		printf("\nData value %d is found in the stack.\n",data);
+	}
+	if(flag==0)
+	{
+		printf("%d was not found in the stack\n",data);
+	}
+}
+void bubblesort_ascending()
+{
+	int temp,i,j;
+	display();
+	printf("\n\n\n");
+	for(i=0;i<=index;i++)
+	{
+		for(j=0;j<=index;j++)
+		{
+			if(array[j]>array[j+1])
+			{
+				temp=array[j];
+				array[j]=array[j+1];
+				array[j+1]=temp;
+			}
+		}
+	}
+	for(i=1;i<=index+1;i++)
+	{
+		top2++;
+		stack[top2]=array[i];
+	}
+	printf("\nThe value of top2 is %d\n",top2);
+	printf("\nUpdated stack is.\n");
+	display();
+	top2=-1;
+}
+void bubblesort_descending()
+{
+	int temp,i,j;
+	display();
+	printf("\n\n\n");
+	for(i=0;i<=index;i++)
+	{
+		for(j=0;j<=index;j++)
+		{
+			if(array2[j]<array2[j+1])
+			{
+				temp=array2[j];
+				array2[j]=array2[j+1];
+				array2[j+1]=temp;
+			}
+		}
+	}
+	for(i=0;i<=index;i++)
+	{
+		top3++;
+		stack[top3]=array2[i];
+	}
+	printf("\nThe value of top3 is %d\n",top2);
+	printf("\nUpdated stack is.\n");
+	display();
+	top3=-1;
+}

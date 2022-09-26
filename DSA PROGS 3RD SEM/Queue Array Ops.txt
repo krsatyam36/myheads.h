@@ -1,0 +1,284 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<ctype.h>
+#include<time.h>
+#include<unistd.h>
+#define MAX 50
+int queue[MAX];
+int rear= -1,front= -1,count=0;
+void enqueue();
+void dequeue();
+void display();
+void linear_search();
+void ascending();
+void descending();
+int main()
+{
+	time_t now=time(NULL);
+	char *str=ctime(&now);
+	printf("\n%s\n",str);
+	int choice;
+	while(1)
+	{
+		printf("\nQueue ops using array\n");
+		printf("\n1.Enqueue (Insert)\n");
+		printf("\n2.Dequeue (Delete)\n");
+		printf("\n3.Display\n");
+		printf("\n4.Linear Search\n");
+		printf("\n5.Bubble Sort\n");
+		printf("\n6.Exit\n");
+		printf("\nEnter your choice:\n");
+		scanf("%d",&choice);
+		switch(choice)
+		{
+			case 1:
+				enqueue();
+				break;
+			case 2:
+				dequeue();
+				break;
+			case 3:
+				display();
+				break;
+			case 4:
+				linear_search();
+				break;
+			case 5:
+				int ch;
+				printf("\n1.Ascending Order\n");
+				printf("\n2.Descending Order\n");
+				printf("\nEnter your choice:\n");
+				scanf("%d",&ch);
+				if(ch==1)
+				{
+					ascending();
+					break;
+				}
+				else if(ch==2)
+				{
+					descending();
+					break;
+				}
+				else
+				{
+					exit(0);
+				}
+				break;
+			case 6:
+				printf("\nExiting the code\n");
+				exit(0);
+			default:
+				printf("\nWrong option entered\n");
+				break;
+		}
+	}
+	return 0;
+}
+void enqueue()
+{
+	if(rear==MAX-1)
+	{
+		printf("\nQueue Overflow\nNo more space left\n");
+		return;
+	}
+	else
+	{
+		int data;
+		printf("\nEnter the data you want to input:\n");
+		scanf("%d",&data);
+		if(front==-1&&rear==-1)
+		{
+			front=0;
+			rear=0;
+		}
+		else
+		{
+			rear++;
+		}
+		queue[rear]=data;
+		count++;
+	}
+	printf("\nData inserted\n");
+}
+void dequeue()
+{
+	if(front==-1||front>rear)
+	{
+		char ch;
+		printf("\nQueue Underflow\nNo data in the Queue\n");
+		printf("Do you want to input data ?\nY or N\n");
+		scanf("%c",&ch);
+		if(ch=='Y'||ch=='y')
+		{
+			enqueue();
+		}
+		else
+		{
+			dequeue();
+		}
+	}
+	else
+	{
+		int data;
+		if(front==rear)
+		{
+			printf("\nData deleted is %d\n",queue[front]);
+			front=-1;
+			rear=-1;
+			count--;
+		}
+		else
+		{
+			printf("\nData deleted is %d\n",queue[front]);
+			front=front+1;
+			count--;
+		}
+		printf("\nUpdated Queue is:\n");
+		display();
+	}
+}
+void display()
+{
+	if(front==-1||front>rear)
+	{
+		char ch;
+		printf("\nQueue Underflow\nNo data in the Queue\n");
+		printf("Do you want to input data ?\nY or N\n");
+		scanf("%c",&ch);
+		if(ch=='Y'||ch=='y')
+		{
+			enqueue();
+		}
+		else
+		{
+			dequeue();
+		}
+	}
+	else
+	{
+		printf("\nThe elements in the Queue are:\n");
+		for(int i=front;i<=rear;i++)
+		{
+			printf("\n%d\n",queue[i]);
+		}
+		printf("\nTotal number of elements in the Queue are: %d\n",count);
+	}
+}
+void linear_search()
+{
+	if(front==-1||front>rear)
+	{
+		char ch;
+		printf("\nQueue Underflow\nNo data in the Queue\n");
+		printf("Do you want to input data ?\nY or N\n");
+		scanf("%c",&ch);
+		if(ch=='Y'||ch=='y')
+		{
+			enqueue();
+		}
+		else
+		{
+			dequeue();
+		}
+	}
+	else
+	{
+		int data,i,pos,flag=0;
+		printf("\nEnter the data you want to search:\n");
+		scanf("%d",&data);
+		for(i=front;i<=rear;i++)
+		{
+			if(data==queue[i])
+			{
+				flag++;
+				pos=i;
+				break;
+			}
+		}
+		if(flag>1)
+		{
+			printf("\nData was found more than once\n");
+		}
+		else if(flag==1)
+		{
+			printf("\nData was found in %d location\n",pos);
+		}
+		else
+		{
+			printf("\nData was not found\n");
+		}
+	}
+}
+void ascending()
+{
+	if(front==-1||front>rear)
+	{
+		char ch;
+		printf("\nQueue Underflow\nNo data in the Queue\n");
+		printf("Do you want to input data ?\nY or N\n");
+		scanf("%c",&ch);
+		if(ch=='Y'||ch=='y')
+		{
+			enqueue();
+		}
+		else
+		{
+			dequeue();
+		}
+	}
+	else
+	{
+		int temp;
+		for(int i=front;i<rear;i++)
+		{
+			for(int j=front;j<rear-i;j++)
+			{
+				if(queue[j+1]>queue[j])
+				{
+					temp=queue[j+1];
+					queue[j+1]=queue[j];
+					queue[j]=temp;
+				}
+			}
+		}
+		printf("\nUpdated Queue is :\n");
+		display();
+	}
+}
+void descending()
+{
+	if(front==-1||front>rear)
+	{
+		char ch;
+		printf("\nQueue Underflow\nNo data in the Queue\n");
+		printf("Do you want to input data ?\nY or N\n");
+		scanf("%c",&ch);
+		if(ch=='Y'||ch=='y')
+		{
+			enqueue();
+		}
+		else
+		{
+			dequeue();
+		}
+	}
+	else
+	{
+		int temp;
+		for(int i=front;i<rear;i++)
+		{
+			for(int j=front;j<rear-i;j++)
+			{
+				if(queue[j+1]<queue[j])
+				{
+					temp=queue[j+1];
+					queue[j+1]=queue[j];
+					queue[j]=temp;
+				}
+			}
+		}
+		printf("\nUpdated Queue is :\n");
+		display();
+	}
+}

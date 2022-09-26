@@ -1,0 +1,85 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<ctype.h>
+#include<string.h>
+int *insert(int size_full, int size)
+{	
+	int num;
+	int *ptr=(int *)malloc(size_full*sizeof(int));
+	if(ptr==NULL)
+	{
+		printf("\nMemory allocation failure.\n");
+		exit(0);
+	}
+	else
+	{	printf("\nEnter data in the array locations:\n");
+		for(int i=0;i<size;i++)
+		{
+			scanf("%d",&ptr[i]);
+		}
+	}
+	return ptr;
+}
+void display(int *ptr1,int size)
+{	
+	printf("\nEntered elements in the array are:\n");
+	for(int i=0;i<size;i++)
+	{
+		printf("%d\n",ptr1[i]);
+	}
+}
+void insert_begin(int *ptr,int size_full,int size)
+{
+    int i,data,choice,temp;
+    if(ptr==NULL)
+    {
+        printf("\nThe current array sequence is empty\n");
+        /*printf("\n1.Insert new array\n");
+        printf("\n2.Exit the code\n");
+        printf("\nEnter your choice:\n");
+        scanf("%d",&choice);
+        switch(choice)
+        {
+            case 1:
+                insert(size_full,size);
+                break;
+            case 2:
+                printf("\nExiting the code.\n");
+                exit(0);
+            default:
+                printf("\nWrong input provided\n");
+                break;
+        }*/
+    }
+    printf("\nThe current array list is:\n");
+    for(i=0;i<size;i++)
+    {
+        printf("%d",ptr[i]);
+    }
+    printf("\nEnter the data you want to insert in the front of the array:\n");
+    scanf("%d",&data);
+    for(i=size-1;i>=0;i++)
+    {   
+        ptr[i+1]=ptr[i];
+    }
+    ptr[0]=data;
+    size++;
+    printf("\nUpdated array sequence is \n");
+    for(i=0;i<size;i++)
+    {
+        printf("%d",ptr[i]);
+    }
+}
+int main()
+{
+	int size_full,size,*array;
+	printf("\nEnter the full size of the array:\n");
+	scanf("%d",&size_full);
+	printf("\nEnter the size you want to use from %d:\n",size_full);
+	scanf("%d",&size);
+	array=insert(size_full,size);
+	display(array,size);
+	insert_begin(array,size_full,size);
+	//insert_begin(&array,size);
+}

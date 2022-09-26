@@ -1,0 +1,425 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<time.h>
+#include<unistd.h>
+#include<string.h>
+#include<ctype.h>
+int num_of_data=0,ele=0;
+struct node{
+	int data;
+	struct node *next;
+};
+struct node *start=NULL;
+void insert();
+void insert_front();
+void insert_last();
+void insert_pos();
+void display();
+void delet_begin();
+void delet_end();
+void delet_pos();
+void linear_search();
+int main()
+{
+	int choice;
+	time_t now =time(NULL);
+	char *str=ctime(&now);
+	printf("\nGMT +5.30hrs\n");
+	printf("%s\n",str);
+	while(1)
+	{
+		printf("\n1.Insert\n");
+		printf("\n2.Insert front\n");
+		printf("\n3.Insert last\n");
+		printf("\n4.Insert in position\n");
+		printf("\n5.Display\n");
+		printf("\n6.Delete front\n");
+		printf("\n7.Delete last\n");
+		printf("\n8.Delete position\n");
+		printf("\n9.Linear Search an element\n");
+		printf("\n10.Exit the code\n");
+		sleep(1);
+		printf("\nEnter the option:\n");
+		scanf("%d",&choice);
+		switch(choice)
+		{
+			case 1:
+				insert();
+				break;
+			case 2:
+				insert_front();
+				break;
+			case 3:
+				insert_last();
+				break;
+			case 4:
+				insert_pos();
+				break;
+			case 5:
+				display();
+				break;
+			case 6:
+				delet_begin();
+				break;
+			case 7:
+				delet_end();
+				break;
+			case 8:
+				delet_pos();
+				break;
+			case 9:
+				linear_search();
+				break;
+			case 10:
+				sleep(1);
+				printf("\nExiting the code\n");
+				sleep(1);
+				exit(0);
+			default:
+				sleep(1);
+				printf("\nWrong option entered.\n");
+				sleep(1);
+				printf("\nPlease choose again from the the following options\n");
+				break;
+		}
+	}
+	return 0;
+}
+void insert()
+{
+	struct node *ptr,*temp;
+	ptr=(struct node*)malloc(sizeof(struct node));
+	if(ptr==NULL)
+	{
+		printf("Memory allocation failure\n");
+		sleep(1);
+		printf("Exiting the code\n");
+		exit(0);
+	}
+	int data;
+	printf("Enter the data you want to insert: \n");
+	scanf("%d",&data);
+	ptr->data=data;
+	if(start==NULL)
+	{
+		start=ptr;
+		ptr->next=start;
+	}
+	else
+	{
+		temp=start;
+		while(temp->next!=start)
+		{
+			temp=temp->next;
+		}
+		temp->next=ptr;
+		ptr->next=start;
+	}
+	printf("\nNode inserted\n");
+}
+void insert_front()
+{
+	struct node *ptr,*temp;
+	ptr=(struct node*)malloc(sizeof(struct node));
+	if(ptr==NULL)
+	{
+		printf("\nMemory allocation failure\n");
+		sleep(1);
+		printf("\nExiting the code\n");
+		exit(0);
+	}
+	int data;
+	printf("\nEnter the data you want to insert:\n");
+	scanf("%d",&data);
+	ptr->data=data;
+	if(start==NULL)
+	{
+		start=ptr;
+		ptr->next=start;
+	}
+	else
+	{
+		temp=start;
+		while(temp->next!=start)
+		{
+			temp=temp->next;
+		}	
+		ptr->next=start;
+		temp->next=ptr;
+		start=ptr;
+	}
+	printf("\nNode inserted\n");
+}
+void insert_last()
+{
+	struct node *ptr,*temp;
+	ptr=(struct node*)malloc(sizeof(struct node));
+	if(ptr==NULL)
+	{
+		printf("Memory allocation failure\n");
+		sleep(1);
+		printf("Exiting the code\n");
+		exit(0);
+	}
+	int data;
+	printf("Enter the data you want to insert: \n");
+	scanf("%d",&data);
+	ptr->data=data;
+	if(start==NULL)
+	{
+		start=ptr;
+		ptr->next=start;
+	}
+	else
+	{
+		temp=start;
+		while(temp->next!=start)
+		{
+			temp=temp->next;
+		}
+		temp->next=ptr;
+		ptr->next=start;
+	}
+	printf("\nNode inserted\n");
+}
+void display()
+{
+	struct node *ptr;
+	if(start==NULL)
+	{
+		char ch;
+		printf("\nList is empty\n");
+		printf("Do you want to create a new node? Y or N\n");
+		scanf("%c",&ch);
+		if(ch=='y'||ch=='Y')
+		{
+			insert_last();
+		}
+		else
+		{
+			printf("\nExiting the code\n");
+			exit(0);
+		}
+	}
+	ptr=start;
+	printf("\nElements in the list are:\n");
+	sleep(1);
+	while(ptr->next!=start)
+	{
+		printf("%d\n",ptr->data);
+		ptr=ptr->next;
+		num_of_data++;
+	}
+	printf("%d\n",ptr->data);
+}
+void insert_pos()
+{
+	int pos;
+	printf("Enter the position you want to insert node in:\n");
+	scanf("%d",&pos);
+	if(pos==1)
+	{
+		insert_front();
+	}
+	else
+	{
+		struct node *ptr,*temp;
+		ptr=start;
+		temp=(struct node*)malloc(sizeof(struct node));
+		printf("\nEnter the data you want to input: \n");
+		scanf("%d",&temp->data);
+		for(int i=2;i<pos-1;i++)
+		{
+			ptr=ptr->next;
+		}
+		temp->next=ptr->next;
+		ptr->next=temp;
+	}
+	printf("\nUpdated list is \n");
+	display();
+}
+void delet_begin()
+{
+	struct node *ptr;
+	if(start==NULL)
+	{
+		char ch;
+		printf("\nList is empty\n");
+		printf("Do you want to create a new node? Y or N\n");
+		scanf("%c",&ch);
+		if(ch=='y'||ch=='Y')
+		{
+			insert_last();
+		}
+		else
+		{
+			printf("\nExiting the code\n");
+			exit(0);
+		}
+	}
+	else if(start->next==start)
+	{
+		start=NULL;
+		free(start);
+		printf("\nNode deleted\n");
+	}
+	else
+	{
+		ptr=start;
+		while(ptr->next!=start)
+		{
+			ptr=ptr->next;// [] [] [] [] [] [,start]
+		}
+		ptr->next=start->next;
+		free(start);
+		start=ptr->next;
+		printf("\Node deleted\n");
+	}
+}
+void delet_end()
+{
+	struct node *ptr,*temp;
+	if(start==NULL)
+	{
+		char ch;
+		printf("\nList is empty\n");
+		printf("Do you want to create a new node? Y or N\n");
+		scanf("%c",&ch);
+		if(ch=='y'||ch=='Y')
+		{
+			insert_last();
+		}
+		else
+		{
+			printf("\nExiting the code\n");
+			exit(0);
+		}
+	}
+	else if(start->next==start)
+	{
+		start=NULL;
+		free(start);
+		printf("\nNode deleted\n");
+	}
+	else
+	{
+		ptr=start;
+		while(ptr->next!=start)
+		{
+			temp=ptr;
+			ptr=ptr->next;
+		}
+		temp->next=ptr->next;
+		free(ptr);
+		printf("\nNode deleted\n");
+	}
+}
+void delet_pos()
+{	
+	int pos;
+	struct node *ptr,*temp,*hold=(struct node *)malloc(sizeof(struct node));
+	if(start==NULL)
+	{
+		char ch;
+		printf("\nList is empty\n");
+		printf("Do you want to create a new node? Y or N\n");
+		scanf("%c",&ch);
+		if(ch=='y'||ch=='Y')
+		{
+			insert_last();
+		}
+		else
+		{
+			printf("\nExiting the code\n");
+			exit(0);
+		}
+	}
+	else if(start->next!=start)
+	{
+		printf("\nOnly one element in the list:\n");
+		start=NULL;
+		free(start);
+		printf("\nNode deleted\n");
+	}
+	else
+	{
+		ptr=start;
+		while(ptr->next!=start)
+		{
+			ele++;
+			ptr=ptr->next;
+		}	
+		ptr=ptr->next;
+		ele++;
+		printf("\nEnter the postion you want to delete:\n");
+		if(pos>ele)
+		{
+			printf("Location out of range\n");
+		}
+		else
+		{
+			temp=start;
+			for(int j=1;j<pos-1;j++)
+			{
+				temp=temp->next;
+			}
+			hold->data=temp->data;
+			temp->next=temp->next->next;
+			free(hold);
+		}
+	}
+	printf("\nNode deleted\n");
+}
+void linear_search()
+{
+	struct node *ptr;
+	if(start==NULL)
+	{
+		char ch;
+		printf("\nList is empty\n");
+		printf("Do you want to create a new node? Y or N\n");
+		scanf("%c",&ch);
+		if(ch=='y'||ch=='Y')
+		{
+			insert_last();
+		}
+		else
+		{
+			printf("\nExiting the code\n");
+			exit(0);
+		}
+	}
+	int data,flag=0,flag1=0;
+	printf("\nEnter the data you want to search for:\n");
+	scanf("%d",&data);
+	ptr=start;
+	sleep(1);
+	while(ptr->next!=start)
+	{
+	 	if(ptr->data==data)
+	 	{
+	 		flag++;
+		}
+		ptr=ptr->next;
+	}
+	if(ptr->data==data)
+	{
+		flag1++;
+	}
+	if(flag>0||flag1>0)
+	{
+		printf("\nData was found in the list\n");
+	}
+	else
+	{
+		printf("\nData not found in the list\n");
+	}
+}
+
+
+
+
+
+
+
+
