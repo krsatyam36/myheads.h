@@ -1,0 +1,573 @@
+// Array ops with insertion at any pos, deletion at any pos, sorting and searching//
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<ctype.h>
+#include<time.h>
+#include<unistd.h>
+#define MAX 100;
+int array[100],i,j,size,count=0;
+void display();
+void insert_front();
+void insert_end();
+void insert_pos();
+void delet_front();
+void delet_end();
+void delet_pos();
+void linear_search();
+int binary_search();
+void ascending_sort();
+void descending_sort();
+void insertion_sort();
+void linear_sort();
+void selection_sort();
+int main()
+{
+	int ch,ch1;
+	int data,res;
+	printf("\nEnter the size of the array (should be less than 100):\n");
+	scanf("%d",&size);
+	printf("\nEnter the element in the array:\n");
+	for(i=0;i<size;i++)
+	{
+		scanf("%d",&array[i]);
+		count++;
+	}
+	while(1)
+	{
+		printf("\n1.Display all the elements\n");
+		printf("\n2.Insert at front\n");
+		printf("\n3.Insert at end\n");
+		printf("\n4.Insert at position\n");
+		printf("\n5.Delete at front\n");
+		printf("\n6.Delete at end\n");
+		printf("\n7.Delete at position\n");
+		printf("\n8.Linear Search\n");
+		printf("\n9.Binary Serch\n");
+		printf("\n10.Bubble Sort\n");
+		printf("\n11.Insertion Sort\n");
+		printf("\n12.Linear Sort\n");
+		printf("\n13.Selection Sort\n");
+		printf("\n14.Exit the code\n");
+		printf("\nEnter your choice:\n");
+		scanf("%d",&ch);
+		switch(ch)
+		{
+			case 1:
+				display();
+				break;
+			case 2:
+				insert_front();
+				break;
+			case 3:
+				insert_end();
+				break;
+			case 4:
+				insert_pos();
+				break;
+			case 5:
+				delet_front();
+				break;
+			case 6:
+				delet_end();
+				break;
+			case 7:
+				delet_pos();
+				break;
+			case 8:
+				linear_search();
+				break;
+			case 9:
+				printf("\nEnter the data you want to search for:\n");
+				scanf("%d",&data);
+				res=binary_search(array,0,size,data);
+				if(res==-1)
+				{
+					printf("\nData was not found in the Array\n");
+				}
+				else
+				{
+					printf("\nData was found at location %d\n",res);
+				}
+				break;
+			case 10:
+				printf("\n1.Ascending Order Sorting\n");
+				printf("\n2.Descending Order Sorting\n");
+				printf("\nEnter your choice:\n");
+				scanf("%d",&ch1);
+				switch(ch1)
+				{
+					case 1:
+						ascending_sort();
+						break;
+					case 2:
+						descending_sort();
+						break;
+					default:
+						printf("\nWrong option\n");
+						break;
+				}
+				break;
+			case 11:
+				insertion_sort();
+				break;
+			case 12:
+				linear_sort();
+				break;
+			case 13:
+				selection_sort();
+				break;
+			case 14:
+				printf("\nExiting the code\n");
+				sleep(1);
+				exit(0);
+			default:
+				printf("\nWrong Option Entered\n");
+				break;
+		}
+	}
+}
+void display()
+{
+	if(count==0)
+	{
+		printf("\nThe array is empty\n");
+		return;
+	}
+	printf("\nElements in the array are:\n");
+	sleep(2);
+	for(i=0;i<size;i++)
+	{
+		printf("array[%d] --> %d\n",i,array[i]);
+	}
+	printf("\nTotal number of elements -> %d\n",count);
+}	
+void insert_front()
+{
+	int data;
+	printf("Enter the data you want to input:\n");
+	scanf("%d",&data);
+	if(count==0)
+	{
+		array[0]=data;
+	}
+	else
+	{
+		for(i=size;i>=0;i--)
+		{
+			array[i+1]=array[i];
+		}
+		array[0]=data;
+	}
+	size++;
+	count++;
+}
+void insert_end()
+{
+	int data;
+	printf("Enter the data you want to input:\n");
+	scanf("%d",&data);
+	if(count==0)
+	{
+		array[0]=data;
+	}
+	array[size]=data;
+	size++;
+	count++;
+}
+void insert_pos()
+{	
+	if(count==0)
+	{
+		int data;
+		printf("Enter the data you want to input:\n");
+		scanf("%d",&data);
+		array[0]=data;
+	}
+	int pos;
+	printf("\nEnter the place you want to insert in:\n");
+	scanf("%d",&pos);
+	if(pos==0||pos==1)
+	{
+		insert_front();
+	}
+	else if(pos==size)
+	{
+		insert_end();
+	}
+	else
+	{	
+		int num;
+		printf("\nEnter the data you want to insert:\n");
+		scanf("%d",&num);
+		//shifting from pos to size//
+		for(i=size;i>=pos;i--)
+		{
+			array[i+1]=array[i];
+		}
+		array[pos]=num;
+	}
+	size++;
+	count++;
+}
+void delet_front()
+{
+	if(count==0)
+	{
+		char ch;
+		printf("\nThe Array is empty\n");
+		printf("\nDo you want to insert data ?\n");
+		printf("\nY or N\n");
+		scanf("%c",&ch);
+		if(ch=='y'||ch=='Y')
+		{
+			insert_front();
+		}
+		else
+		{
+			exit(0);
+		}
+	}
+	//deleting part done by shifting [i+1] to [i]
+	else
+	{
+		int data;
+		data=array[0];
+		for(i=0;i<size;i++)
+		{
+			array[i]=array[i+1];
+		}
+		sleep(1);
+		printf("\nThe deleted data is : %d\n",data);
+	}
+	size--;
+	sleep(1);
+	printf("\nUpdated Array Sequence is :\n");
+	display();
+}
+void delet_end()
+{
+	if(count==0)
+	{
+		char ch;
+		printf("\nThe Array is empty\n");
+		printf("\nDo you want to insert data ?\n");
+		printf("\nY or N\n");
+		scanf("%c",&ch);
+		if(ch=='y'||ch=='Y')
+		{
+			insert_front();
+		}
+		else
+		{
+			exit(0);
+		}
+	}
+	else
+	{	int data=array[size-1];
+		printf("\nElement deleted is : %d\n",data);
+	}
+	size--;
+	sleep(1);
+	printf("\nUpdated Array is:\n");
+	display();
+}
+void delet_pos()
+{
+	if(count==0)
+	{
+		char ch;
+		printf("\nThe Array is empty\n");
+		printf("\nDo you want to insert data ?\n");
+		printf("\nY or N\n");
+		scanf("%c",&ch);
+		if(ch=='y'||ch=='Y')
+		{
+			insert_front();
+		}
+		else
+		{
+			exit(0);
+		}
+	}
+	int pos;
+	printf("\nEnter the place you want to delete in:\n");
+	scanf("%d",&pos);
+	if(pos==0||pos==1)
+	{
+		delet_front();
+	}
+	else if(pos==size)
+	{
+		delet_end();
+	}
+	else
+	{
+		//shfting [pos +1] to [pos]
+		for(int i=pos;i<size;i++)
+		{
+			array[i]=array[i+1];
+		}
+	}
+	size--;
+	printf("\nThe Updated Array is :\n");
+	display();
+}
+void linear_search()
+{	
+	if(count==0)
+	{
+		char ch;
+		printf("\nThe Array is empty\n");
+		printf("\nDo you want to insert data ?\n");
+		printf("\nY or N\n");
+		scanf("%c",&ch);
+		if(ch=='y'||ch=='Y')
+		{
+			insert_front();
+		}
+		else
+		{
+			exit(0);
+		}
+	}
+	else
+	{	
+		//searching one by one//
+		int data,flag=0;
+		printf("\nEnter the data you want to search for: \n");
+		scanf("%d",&data);
+		for(int i=0;i<size;i++)
+		{
+			if(data==array[i])
+			{
+				flag++;
+				printf("\nData was found in location %d\n",i);
+			}
+		}
+		if(flag>1)
+		{
+			printf("\nData was found multiple times\n");
+		}
+		else if(flag==1)
+		{	
+			printf("\nData was found only once\n");
+		}
+		else
+			printf("\nData was not found in the Array Sequence\n");
+	}	
+}
+int binary_search(int array[], int low, int high, int data)
+{
+	if(high>=low)
+	{
+		//if present//
+		int mid=low+(high-low)/2;
+		if(array[mid]==data)
+		{
+			return mid;
+		}
+		if(array[mid]>data)
+		{
+			return binary_search(array,low,mid-1,data);
+		}
+		else
+		{
+			return binary_search(array,mid+1,high,data);
+		}
+	}
+	//return -1 if not present//
+	return -1;
+}
+void ascending_sort()
+{
+	if(count==0)
+	{
+		char ch;
+		printf("\nThe Array is empty\n");
+		printf("\nDo you want to insert data ?\n");
+		printf("\nY or N\n");
+		scanf("%c",&ch);
+		if(ch=='y'||ch=='Y')
+		{
+			insert_front();
+		}
+		else
+		{
+			exit(0);
+		}
+	}
+	else
+	{
+		int temp;
+		for(int i=0;i<size-1;i++)
+		{
+			for(int j=0;j<size-i-1;j++)
+			{
+				if(array[j]>array[j+1])
+				{
+					temp=array[j+1];
+					array[j+1]=array[j];
+					array[j]=temp;
+				}
+			}
+		}
+	}
+	printf("\nUpdated Array is:\n");
+	display();
+}
+void descending_sort()
+{
+	if(count==0)
+	{
+		char ch;
+		printf("\nThe Array is empty\n");
+		printf("\nDo you want to insert data ?\n");
+		printf("\nY or N\n");
+		scanf("%c",&ch);
+		if(ch=='y'||ch=='Y')
+		{
+			insert_front();
+		}
+		else
+		{
+			exit(0);
+		}
+	}
+	else
+	{
+		int temp;
+		for(int i=0;i<size-1;i++)
+		{
+			for(int j=0;j<size-i-1;j++)
+			{
+				if(array[j]<array[j+1])
+				{
+					temp=array[j+1];
+					array[j+1]=array[j];
+					array[j]=temp;
+				}
+			}
+		}
+	}
+	printf("\nUpdated Array is:\n");
+	display();
+}
+void insertion_sort()
+{
+	if(count==0)
+	{
+		char ch;
+		printf("\nThe Array is empty\n");
+		printf("\nDo you want to insert data ?\n");
+		printf("\nY or N\n");
+		scanf("%c",&ch);
+		if(ch=='y'||ch=='Y')
+		{
+			insert_front();
+		}
+		else
+		{
+			exit(0);
+		}
+	}
+	else
+	{
+		// coampring i with preceding data, i with i-1 etc//
+		int temp,data,i,j;
+		for(i=1;i<size;i++)
+		{
+			data=array[i];
+			j=i-1; 
+			while(j>=0&&array[j]>data)
+			{
+				array[j+1]=array[j]; //swapp//
+				j=j-1;
+			}
+			array[j+1]=data;//swap ends//
+		}
+	}
+	printf("\nThe Updated Array is :\n");
+	display();
+}
+void linear_sort()
+{
+	if(count==0)
+	{
+		char ch;
+		printf("\nThe Array is empty\n");
+		printf("\nDo you want to insert data ?\n");
+		printf("\nY or N\n");
+		scanf("%c",&ch);
+		if(ch=='y'||ch=='Y')
+		{
+			insert_front();
+		}
+		else
+		{
+			exit(0);
+		}
+	}
+	else
+	{
+		int i,j,temp;
+		for(i=0;i<size;i++)
+		{
+			for(j=i+1;j<size;j++)
+			{
+				if(array[j]<array[i])
+				{
+					temp=array[j];
+					array[j]=array[i];
+					array[i]=temp;
+				}
+			}
+		}
+	}
+	printf("\nThe Updated Array is:\n");
+	display();
+}	
+void selection_sort()
+{
+	if(count==0)
+	{
+		char ch;
+		printf("\nThe Array is empty\n");
+		printf("\nDo you want to insert data ?\n");
+		printf("\nY or N\n");
+		scanf("%c",&ch);
+		if(ch=='y'||ch=='Y')
+		{
+			insert_front();
+		}
+		else
+		{
+			exit(0);
+		}
+	}
+	else
+	{
+		int i,j,temp,min;
+		for(i=0;i<size-1;i++)
+		{
+			min=i;
+			for(j=i+1;j<size;j++)
+			{
+				if(array[min]>array[j])
+					min=j;
+			}
+			if(min!=i)
+			{
+				temp=array[i];
+				array[i]=array[min];
+				array[min]=temp;
+			}
+		}
+	}
+	printf("\nThe Updated Array is:\n");
+	display();
+}
+//bug in last pos of linear sort--> SOLVED//	
+// segementation fault in selection_sort --> SOLVED//
+//bug in count var --> SOLVED//
+
